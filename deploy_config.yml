@@ -1,0 +1,30 @@
+---
+# ── Play 2 : Serveurs critiques uniquement ───────────────────
+- name: Configuration serveurs critiques
+  hosts: critical_prod
+  gather_facts: false
+
+  tasks:
+    - name: Afficher les hôtes critiques
+      debug:
+        msg: >
+          [CRITICAL] {{ inventory_hostname }}
+          | tier={{ tier }}
+          | deployment={{ deployment_id }}
+
+    - name: Simuler backup forcé
+      debug:
+        msg: "backup déclenché sur {{ inventory_hostname }}"
+
+# ── Play 4 : Groupes datacenter ──────────────────────────────
+- name: Rapport par datacenter
+  hosts: dc_paris
+  gather_facts: false
+
+  tasks:
+    - name: Rapport datacenter
+      debug:
+        msg: >
+          [DC] {{ inventory_hostname }}
+          | datacenter={{ datacenter }}
+          | deployment={{ deployment_id }}
